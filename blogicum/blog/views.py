@@ -45,14 +45,17 @@ posts = [
     },
 ]
 
+
 def index(request):
     template = 'blog/index.html'
-    return render(request, template, context={'posts': posts})
+    return render(request, template, context={'posts': posts[::-1]})
 
 
-def post_detail(request):
-    pass
+def post_detail(request, id):
+    template = 'blog/detail.html'
+    return render(request, template, context={'post': posts[id]})
 
 
-def category_posts(request):
-    pass
+def category_posts(request, category_slug):
+    template = 'blog/category.html'
+    return render(request, template, context={'post_category': category_slug})
