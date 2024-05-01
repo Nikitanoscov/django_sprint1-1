@@ -45,23 +45,28 @@ posts = [
     },
 ]
 
+posts_dict = {str(post['id']): post for post in posts}
+
 
 def index(request):
-    template = 'blog/index.html'
-    return render(request, template, context={'posts': posts[::-1]})
+    return render(request, 'blog/index.html', context={'posts': posts[::-1]})
 
 
-def post_detail(request, post_id):
-    template = 'blog/detail.html'
-    posts_dict = {str(post['id']): post for post in posts}
+def post_detail(request, post_id):   
     if str(post_id) not in posts_dict.keys():
-        raise Http404
-    return render(request, template, context={'post': posts_dict[str(post_id)]})
+        raise Http404(
+            '<Данной публикации не существует. Проверьте введенный ID>'
+        )
+    return render(
+        request,
+        'blog/detail.html',
+        context={'post': posts_dict[str(post_id)]}
+    )
 
 
 def category_posts(request, category_slug):
-    template = 'blog/category.html'
-    return render(request, template, context={'post_category': category_slug})
-
-
-
+    return render(
+        request,
+        'blog/category.html',
+        context={'post_category': category_slug}
+    )
