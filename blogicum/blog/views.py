@@ -53,16 +53,15 @@ def index(request):
 
 def post_detail(request, post_id):
     template = 'blog/detail.html'
-    if not any(post.get('id') == post_id for post in posts):
+    posts_dict = {str(post['id']): post for post in posts}
+    if str(post_id) not in posts_dict.keys():
         raise Http404
-    post_detail = None
-    for post in posts:
-        if post['id'] == post_id:
-            post_detail = post
-            break
-    return render(request, template, context={'post': post_detail})
+    return render(request, template, context={'post': posts_dict[str(post_id)]})
 
 
 def category_posts(request, category_slug):
     template = 'blog/category.html'
     return render(request, template, context={'post_category': category_slug})
+
+
+
