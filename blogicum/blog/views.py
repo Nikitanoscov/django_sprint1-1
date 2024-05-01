@@ -59,7 +59,7 @@ def post_detail(request, post_id):
             f'"/posts/{post_id}" Убедитесь, что номер публикации верный>'
         )
     return render(request, 'blog/detail.html', context={
-        'post': posts[post_id]
+        'post': publications[post_id]
     })
 
 
