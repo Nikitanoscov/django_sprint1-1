@@ -1,6 +1,7 @@
+from django.http import Http404
 from django.shortcuts import render
 
-# Create your views here.
+
 posts = [
     {
         'id': 0,
@@ -50,9 +51,16 @@ def index(request):
     return render(request, template, context={'posts': posts[::-1]})
 
 
-def post_detail(request, id):
+def post_detail(request, post_id):
     template = 'blog/detail.html'
-    return render(request, template, context={'post': posts[id]})
+    if not any(post.get('id') == post_id for post in posts):
+        raise Http404
+    post_detail = None
+    for post in posts:
+        if post['id'] == post_id:
+            post_detail = post
+            break
+    return render(request, template, context={'post': post_detail})
 
 
 def category_posts(request, category_slug):
