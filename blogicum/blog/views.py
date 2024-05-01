@@ -52,7 +52,7 @@ def index(request):
     return render(request, 'blog/index.html', context={'posts': posts[::-1]})
 
 
-def post_detail(request, post_id):   
+def post_detail(request, post_id):
     if str(post_id) not in posts_dict.keys():
         raise Http404(
             '<Данной публикации не существует. Проверьте введенный ID>'
