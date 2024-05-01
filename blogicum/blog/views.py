@@ -45,7 +45,7 @@ posts = [
     },
 ]
 
-posts_dict = {str(post['id']): post for post in posts}
+publications = {post['id']: post for post in posts}
 
 
 def index(request):
@@ -53,15 +53,14 @@ def index(request):
 
 
 def post_detail(request, post_id):
-    if str(post_id) not in posts_dict.keys():
+    if post_id not in publications:
         raise Http404(
-            '<Данной публикации не существует. Проверьте введенный ID>'
+            f'<Данной публикации не существует. '
+            f'"/posts/{post_id}" Убедитесь, что номер публикации верный>'
         )
-    return render(
-        request,
-        'blog/detail.html',
-        context={'post': posts_dict[str(post_id)]}
-    )
+    return render(request, 'blog/detail.html', context={
+        'post': posts[post_id]
+    })
 
 
 def category_posts(request, category_slug):
